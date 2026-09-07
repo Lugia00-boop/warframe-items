@@ -203,7 +203,7 @@ const test = (base) => {
         assert.strictEqual(dd.length, matches.length, 'Before and after dedupe should match');
         assert.strictEqual(matches.length, 1);
 
-        assert.strictEqual(matches[0].wikiAvailable, true)        
+        assert.strictEqual(matches[0].wikiAvailable, true);
       });
       it('should only have wikia available for Voidrig', async () => {
         const matches = data.warframes
@@ -216,7 +216,7 @@ const test = (base) => {
         assert.strictEqual(dd.length, matches.length, 'Before and after dedupe should match');
         assert.strictEqual(matches.length, 1);
 
-        assert.strictEqual(matches[0].wikiAvailable, true)        
+        assert.strictEqual(matches[0].wikiAvailable, true);
       });
       it('should only have wikia available for Bonewidow', async () => {
         const matches = data.warframes
@@ -229,7 +229,7 @@ const test = (base) => {
         assert.strictEqual(dd.length, matches.length, 'Before and after dedupe should match');
         assert.strictEqual(matches.length, 1);
 
-        assert.strictEqual(matches[0].wikiAvailable, true)        
+        assert.strictEqual(matches[0].wikiAvailable, true);
       });
       it('should not have tradable components for Galariak Prime', async () => {
         const matches = data.weapons

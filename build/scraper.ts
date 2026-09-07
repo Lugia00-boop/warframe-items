@@ -312,12 +312,24 @@ class Scraper {
     const vaultData = await new VaultScraper().scrape();
     bar.tick();
 
-    // Combine scraped warframe and necramech data to keep 
+    // Combine scraped warframe and necramech data to keep
     // current data format (mechs and frames are 1 thing)
     // for compatibility reasons
-    necramechs.forEach(mech => {
-      const mechToFrame = mech as WikiaWarframe
-      warframes.push(mechToFrame)
+    necramechs.forEach((mech) => {
+      const mechToFrame: WikiaWarframe = {
+        name: mech.name,
+        uniqueName: mech.uniqueName,
+        url: mech.url,
+        conclave: mech.conclave,
+        mr: mech.mr,
+        polarities: mech.polarities,
+        sprint: mech.sprint,
+        introduced: mech.introduced,
+        vaulted: mech.vaulted,
+        thumbnail: mech.thumbnail,
+        marketCost: mech.marketCost,
+      };
+      warframes.push(mechToFrame);
     });
 
     return {

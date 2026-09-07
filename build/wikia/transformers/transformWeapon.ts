@@ -198,17 +198,17 @@ const parseSlam = ({
 
 /**
  * Convert some odd weapon naming conventions
- * @param ToConvert - weapon to fix 
+ * @param ToConvert - weapon to fix
  * @return weapon with naming fixed
 */
 const fixNamingConvention = (NameToConvert: string): string => {
-  if (NameToConvert === "Dark Split-Sword (Heavy Blade)") {
-    // only converting 1 of these to avoid the parser.ts name wikia 
+  if (NameToConvert === 'Dark Split-Sword (Heavy Blade)') {
+    // only converting 1 of these to avoid the parser.ts name wikia
     // ambiguity check, since both names can go go to the same url.
-    return "Dark Split-Sword"
+    return 'Dark Split-Sword';
   }
-  return NameToConvert
-}
+  return NameToConvert;
+};
 
 /**
  * Parse raw weapon data to a clean weapon object

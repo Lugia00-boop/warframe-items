@@ -1,9 +1,10 @@
 import transformPolarity from './transformPolarity';
-import type { WikiaNecramech } from '../../types/shared';
+import type { WikiaNecramech, Blueprint } from '../../types/shared';
 
 interface OldNecramech {
   Name?: string;
   Image?: string;
+  Conclave?: number;
   Mastery?: number;
   Polarities?: string[];
   Sprint?: number;
@@ -17,36 +18,43 @@ interface OldNecramech {
  * Transform wikia lua necramechs into usable standardized json
  * @param oldMech - old necramech in lua format
  * @param imageUrls - name-url pairs
+ * @param blueprints - blueprint objects
  * @returns transformed necramech data
  */
 export default (
-  oldMechs: OldNecramech,
+  oldMech: OldNecramech,
   imageUrls: Record<string, string>,
-  _blueprints?: Record<string, unknown>
+  blueprints: Record<string, unknown>
 ): WikiaNecramech | undefined => {
-  let newMechs: WikiaNecramech | undefined;
-  if (!oldMechs.Name) {
+  let newMech: WikiaNecramech | undefined;
+  if (!oldMech.Name) {
     throw new Error('Missing necramech Name');
   }
 
   try {
-    const { Image, Mastery, Polarities, Sprint, Introduced, Vaulted, InternalName, Name } = oldMechs;
+    const { Name, Conclave, Image, Mastery, Polarities, Sprint, Introduced, Vaulted, InternalName }
+      = oldMech;
 
-    newMechs = {
+    newMech = {
       name: Name,
       uniqueName: InternalName,
       url: `https://wiki.warframe.com/w/${encodeURIComponent(Name.replace(/\s/g, '_'))}`,
+      conclave: Conclave,
       mr: Mastery ?? 0,
       polarities: Polarities,
       sprint: Sprint,
       introduced: Introduced,
       vaulted: Vaulted ?? undefined,
       thumbnail: imageUrls[Image ?? ''],
+      marketCost:
+        blueprints[Name] && typeof (blueprints[Name] as Blueprint).MarketCost === 'number'
+          ? ((blueprints[Name] as Blueprint).MarketCost as number)
+          : undefined,
     };
-    newMechs = transformPolarity(oldMechs, newMechs);
+    newMech = transformPolarity(oldMech, newMech);
   } catch (error) {
-    console.error(`Error parsing ${oldMechs.Name}`);
+    console.error(`Error parsing ${oldMech.Name}`);
     throw error;
   }
-  return newMechs;
+  return newMech;
 };
