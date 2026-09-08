@@ -93,6 +93,7 @@ export type Locales = Record<string, Record<string, unknown>>;
 export interface WikiaData {
   weapons: WikiaWeapon[];
   warframes: WikiaWarframe[];
+  necramechs: WikiaNecramech[];
   mods: WikiaMod[];
   versions: WikiaVersion[];
   ducats: WikiaDucat[];

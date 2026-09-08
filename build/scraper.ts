@@ -16,7 +16,7 @@ import VersionScraper from './wikia/scrapers/VersionScraper';
 import readJson from './readJson';
 import sleep from './sleep';
 import { get, getJSON, retryAttempts } from './network';
-import type { WikiaData, WikiaWarframe } from './types/shared';
+import type { WikiaData } from './types/shared';
 import type { TitaniaRelic } from '@wfcd/relics';
 import type { Patchlogs } from '@wfcd/patchlogs';
 
@@ -291,6 +291,7 @@ class Scraper {
     await sleep(100);
     const warframes = await new WarframeScraper().scrape();
     bar.tick();
+    await sleep(100);
     const necramechs = await new NecramechScraper().scrape();
     bar.tick();
     await sleep(100);
@@ -312,29 +313,10 @@ class Scraper {
     const vaultData = await new VaultScraper().scrape();
     bar.tick();
 
-    // Combine scraped warframe and necramech data to keep
-    // current data format (mechs and frames are 1 thing)
-    // for compatibility reasons
-    necramechs.forEach((mech) => {
-      const mechToFrame: WikiaWarframe = {
-        name: mech.name,
-        uniqueName: mech.uniqueName,
-        url: mech.url,
-        conclave: mech.conclave,
-        mr: mech.mr,
-        polarities: mech.polarities,
-        sprint: mech.sprint,
-        introduced: mech.introduced,
-        vaulted: mech.vaulted,
-        thumbnail: mech.thumbnail,
-        marketCost: mech.marketCost,
-      };
-      warframes.push(mechToFrame);
-    });
-
     return {
       weapons,
       warframes,
+      necramechs,
       mods,
       versions,
       ducats,
